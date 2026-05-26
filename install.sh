@@ -6,7 +6,8 @@ if [ "$EUID" -ne 0 ]
 fi
 
 echo -e "\n\n >>> Backup all system files that will be affected \n\n"
-mkdir /home/chip/.fixchip && cd /home/chip/.fixchip
+rm -rf /home/chip/.fixchip
+mkdir -p /home/chip/.fixchip && cd /home/chip/.fixchip
 cp /etc/X11/xorg.conf /etc/X11/xorg.conf.bak
 cp /etc/apt/preferences /etc/apt/preferences.bak
 cp /etc/apt/sources.list /etc/apt/sources.list.bak
@@ -17,11 +18,15 @@ echo -e "\n\n >>> Download latest tarball of filesystem changes from github or m
 # VER=$(curl --silent -qI https://github.com/daisyUniverse/chip/releases/latest | awk -F '/' '/^location/ {print  substr($NF, 1, length($NF)-1)}'); \
 # wget -O /home/chip/.fixchip/fixchip.tar.gz https://github.com/daisyUniverse/chip/releases/download/$VER/fixchip.tar.gz
 
-wget -O /home/chip/.fixchip/fixchip.tar.gz https://sh.universe.dog/fixchip.tar.gz -q --show-progress
+# wget -O /home/chip/.fixchip/fixchip.tar.gz https://sh.universe.dog/fixchip.tar.gz -q --show-progress
 
-echo -e "\n\n >>> untar the ball..\n\n"
+wget -O /home/chip/.fixchip/fixchip.zip https://github.com/aikomastboom/fixchip/archive/refs/heads/main.zip
 
-tar -xzvf /home/chip/.fixchip/fixchip.tar.gz -C /home/chip/.fixchip
+echo -e "\n\n >>> unzip the ball..\n\n"
+
+unzip /home/chip/.fixchip/fixchip.zip -d /home/chip/.fixchip && \
+mv /home/chip/.fixchip/fixchip-main/* /home/chip/.fixchip/ && \
+rmdir /home/chip/.fixchip/fixchip-main
 
 echo -e "\n\n >>> Copy in apt configs\n\n"
 
@@ -51,7 +56,7 @@ fi
 
 echo -e "\n\n >>> Install chip-battery-status\n\n"
 git clone https://github.com/editkid/chip-battery-status
-cd chip-battery-status 
+cd chip-battery-status
 ./install.sh
 cd ..
 

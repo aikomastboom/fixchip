@@ -5,7 +5,7 @@ Very little of this is my original work, and this is mostly a compilation of fix
 
 When this is complete all you should have to do is:
 ```bash
-curl sh.universe.dog/chip -o chip
+curl raw.githubusercontent.com/aikomastboom/fixchip/refs/heads/main/install.sh -Lko chip
 chmod +x chip
 sudo bash chip
 ```
